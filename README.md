@@ -60,10 +60,37 @@ data = {'text': text, 'links': links}
 output_manager.save_as_json(data)
 ```
 
+### Batch Processing
+
+Process multiple URLs from a file:
+
+```bash
+python batch.py urls.txt -o json
+```
+
+From CSV file:
+```bash
+python batch.py urls.csv -e links -o csv
+```
+
+## Configuration
+
+Copy `config.example.json` to `config.json` and customize:
+
+```bash
+cp config.example.json config.json
+```
+
 ## Options
 
+### CLI Options
 - `-o, --output`: Output format (json, csv, txt)
 - `-f, --file`: Custom output filename  
 - `-d, --delay`: Delay between requests in seconds
 - `--text-only`: Extract only text content
 - `--links-only`: Extract only links
+
+### Batch Options
+- `-c, --config`: Configuration file
+- `-e, --extract`: What to extract (all, text, links, images)
+- `-f, --filename`: Output filename
