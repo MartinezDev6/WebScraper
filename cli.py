@@ -9,6 +9,12 @@ from scraper import WebScraper
 from output import OutputManager
 
 
+def print_banner():
+    print("WebScraper v1.0.0")
+    print("A simple tool for web scraping")
+    print("-" * 30)
+
+
 def main():
     parser = argparse.ArgumentParser(description='WebScraper - Extract data from websites')
     parser.add_argument('url', help='URL to scrape')
@@ -21,13 +27,19 @@ def main():
                         help='Extract only text content')
     parser.add_argument('--links-only', action='store_true', 
                         help='Extract only links')
+    parser.add_argument('--quiet', action='store_true',
+                        help='Suppress banner and verbose output')
     
     args = parser.parse_args()
+    
+    if not args.quiet:
+        print_banner()
     
     scraper = WebScraper(delay=args.delay)
     output_manager = OutputManager()
     
-    print(f"Scraping {args.url}...")
+    if not args.quiet:
+        print(f"Scraping {args.url}...")
     
     html_content = scraper.scrape_url(args.url)
     if not html_content:
@@ -75,7 +87,8 @@ def main():
         else:
             output_manager.save_as_txt(f"URL: {data['url']}\n\nText:\n{data['text']}\n\nLinks ({data['link_count']}):\n" + '\n'.join(data['links']), args.file)
     
-    print("Scraping completed!")
+    if not args.quiet:
+        print("Scraping completed!")
 
 
 if __name__ == "__main__":
